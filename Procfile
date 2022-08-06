@@ -1,1 +1,1 @@
-web: gunicorn hobie-dashboard.wsgi
+web: gunicorn django-datta-able.wsgi
