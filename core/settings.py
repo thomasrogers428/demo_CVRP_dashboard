@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-GDAL_LIBRARY_PATH = '/usr/local/lib/libgdal.dylib'
+# GDAL_LIBRARY_PATH = '/usr/local/lib/libgdal.dylib'
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
