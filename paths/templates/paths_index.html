@@ -1,0 +1,220 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Demands {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <section class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="col-md-0 text-right">
+                                <div class="btn-group mb-3 mr-2 text-right">
+                                    <div class="card-block">
+                                        <form id="calc_path_form" onsubmit="loadingPage()" method="POST">
+                                            {% csrf_token %}
+                                            <input class="btn btn-primary" id="calculate_path" value="Calculate Path" name ="calculate_path" type="submit"></input>
+                                        </form> 
+
+                                        <script type = "text/javascript">
+                                            function loadingPage(){
+                                                var input = document.getElementById("calculate_path");
+                                                input.value = "Calculating..."
+                                            }
+                                        </script>
+
+                                        <script src="https://code.jquery.com/jquery-3.5.1.js" 
+                                                        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+                                                            crossorigin="anonymous">
+                                        </script>
+                                                
+                                        <script type="text/javascript">
+                                        $(document).on('submit','#calc_path_form',function(e){
+                                            e.preventDefault();
+                                            $.ajax({
+                                                type:'POST',
+                                                url:'{% url "path_index" %}',
+                                                data:
+                                                {
+                                                    spec: "calculate_path",
+                                                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                                                },
+                                                success:function(){
+                                                    // window.location.href="/paths/";
+                                                    window.location.reload();
+                                                    alert("Handled");
+                                                    }
+                                                })
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- [ basic-table ] start -->
+                                <div class="col-xl-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Paths</h5>
+                                        </div>
+                                        <div class="col-md-6 col-xl-12">
+                                            <div class="card-block table-border-style">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Truck #</th>
+                                                                <th>Load</th>
+                                                                <th>Stops</th>
+                                                                <th>Info</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for path in paths %}
+                                                            <tr>
+                                                                <th scope="row">{{ path.truck_id }}</th>
+                                                                <td>{{ path.total_load }}</td>
+                                                                <td>{{ path.total_stops  }}</td>
+                                                                <td><a href="/paths/truck_info/{{ path.truck_id }}">Details</a></td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody> 
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-0 text-right">
+                                                    <div class="text-right">
+                                                        <div class="card-block">
+                                                            <div class="row">
+                                                                <div class="col-md-6 col-xl-8 text-left">
+                                                                    <div class="row d-flex align-items-center">
+                                                                        <p style="font-size: 12px">Authorizing the Path will log the deliveries and remove satisfied demands from the demands tab.</p>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-4">
+                                                                    <form id="auth_path_form" method="POST">
+                                                                        {% csrf_token %}
+                                                                        
+                                                                        <input class="btn btn-success" id="authorize_path" value="Authorize Path" name ="authorize_path" type="submit"></input>
+                                                                    </form> 
+                                                                </div>
+                                                                
+                                                            </div>
+
+                                                            <script type = "text/javascript">
+                                                                function authorizingPage(){
+                                                                    var input = document.getElementById("authorize_path");
+                                                                    input.value = "Authorizing..."
+                                                                }
+                                                            </script>
+                                                            
+                                                            <!-- <form id="calc_path_form" method="POST">
+                                                                {% csrf_token %}
+                                                                <button class="btn btn-primary" id="calculate_path" value="Calculate Path" name ="calculate_path" type="submit">Calculate Path</button>
+                                                            </form>  -->
+                    
+                                                            <script src="https://code.jquery.com/jquery-3.5.1.js" 
+                                                                            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+                                                                                crossorigin="anonymous">
+                                                            </script>
+                                                                    
+                                                            <script type="text/javascript">
+                                                            $(document).on('submit','#auth_path_form',function(e){
+                                                                e.preventDefault();
+                                                                $.ajax({
+                                                                    type:'POST',
+                                                                    url:'{% url "path_index" %}',
+                                                                    data:
+                                                                    {
+                                                                        spec: "authorize_path",
+                                                                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                                                                    },
+                                                                    success:function(){
+                                                                        // window.location.href="/paths/";
+                                                                        window.location.reload();
+                                                                        alert("Authorized");
+                                                                        }
+                                                                    })
+                                                                });
+                                                            </script>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-4">
+                                    <div class="card yearly-sales">
+                                        <div class="card-block">
+                                            <h6 class="mb-6">Capacity Filled</h6>
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-9">
+                                                    <h3 class="f-w-300 d-flex align-items-center  m-b-0">
+                                                        <!-- <i class="feather icon-arrow-up text-c-green f-30 m-r-10"></i> -->
+                                                        {{ total_shipped }} <span style="font-size:20px">&nbspft<sup>3</sup>&nbsp</span><span style="font-size:30px">/</span>&nbsp{{ total_capacity }} <span style="font-size:20px">&nbspft<sup>3</sup></span></h3>
+                                                </div>
+                                                <div class="col-3 text-right">
+                                                    <p class="m-b-0">{{ percent_capacity }}%</p>
+                                                </div>
+                                            </div>
+                                            <div class="progress m-t-30" style="height: 7px;">
+                                                <div class="progress-bar progress-c-theme" role="progressbar"
+                                                        style="width:{{ percent_capacity }}%;" aria-valuenow="{{ percent_capacity }}" aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- <div class="progress m-t-30" style="height: 7px;">
+                                                <div class="progress-bar progress-c-theme" role="progressbar"
+                                                        style="width:{{percent_capacity}}%;" aria-valuenow="{{percent_capacity}}" aria-valuemin="0"
+                                                        aria-valuemax="100"></div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-block border-bottom">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-zap f-30 text-c-green"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ dropped_load_total }} <span style="font-size:22px">ft<sup>3</sup> </span></h3>
+                                                    <span class="d-block text-uppercase">UNDELIVERED LOAD</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% comment %} <div class="card-block">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ total_capacity }}</h3>
+                                                    <span class="d-block text-uppercase">TOTAL CAPACITY</span>
+                                                </div>
+                                            </div>
+                                        </div> {% endcomment %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

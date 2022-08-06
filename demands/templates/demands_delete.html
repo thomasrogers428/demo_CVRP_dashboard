@@ -1,0 +1,82 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5>Delete Demand</h5>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form method="POST" id="DemandDelete">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <label for="delete_address">Select Address to Delete</label>
+                                                            <select class="mb-3 form-control" name="delete_address" id="delete_address">
+                                                                <option>Select an Address</option>
+                                                                {% for entry in addresses %}
+                                                                    <option value="{{entry.address}}" id="delete_address">{{entry.address}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <input type="submit" class="btn btn-primary" value="Delete"></input>
+                                                    </form>
+
+                                                    <script src="https://code.jquery.com/jquery-3.5.1.js" 
+                                                        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+                                                            crossorigin="anonymous"></script>
+                                                
+                                                    <script type="text/javascript">
+                                                    $(document).on('submit','#DemandDelete',function(e){
+                                                        e.preventDefault();
+                                                        $.ajax({
+                                                            type:'POST',
+                                                            url:'{% url "demand_index" %}',
+                                                            data:
+                                                            {
+                                                                address:$("#delete_address").val(),
+                                                                type: "Delete",
+                                                                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                                                            },
+                                                            success:function(){
+                                                                window.location.href="/demands/";
+                                                                alert('Demand Deleted');
+                                                                    }
+                                                            })
+                                                        });
+                                                    </script>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

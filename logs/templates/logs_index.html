@@ -1,0 +1,141 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 m-b-30">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                                aria-controls="home" aria-selected="false">All</a>
+                                        </li>
+                                        <!-- <li class="nav-item">
+                                            <a class="nav-link" id="profile-tab" data-toggle="tab"
+                                                href="#profile" role="tab" aria-controls="profile" aria-selected="true">This
+                                                Week</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact"
+                                                role="tab" aria-controls="contact" aria-selected="false">All</a>
+                                        </li> -->
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                        <!-- <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>load</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for path in paths %}
+                                                    <tr>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.date}}</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.time}}</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.load}}</h6>
+                                                        </td>
+                                                        <td><a href="logged_path_info/{{ path.id }}">Details</a></td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div> -->
+                                        <div class="tab-pane fade active show" id="profile" role="tabpanel"
+                                                aria-labelledby="profile-tab">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>load</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for path in paths %}
+                                                    <tr>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.date}}</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.time}}</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.load}}</h6>
+                                                        </td>
+                                                        <td><a href="logged_path_info/{{ path.id }}">Details</a></td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- <div class="tab-pane fade" id="contact" role="tabpanel"
+                                                aria-labelledby="contact-tab">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>load</th>
+                                                    <th></th>
+                                                    <th>User</th>
+                                                    <th>Status</th>
+                                                    <th class="text-right"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for path in paths %}
+                                                    <tr>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.date}}</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.time}}</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="m-0">{{path.load}}</h6>
+                                                        </td>
+                                                        <td><a href=>Details</a></td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->            
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

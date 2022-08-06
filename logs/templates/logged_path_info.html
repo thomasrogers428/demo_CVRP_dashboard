@@ -1,0 +1,144 @@
+{% extends "layouts/base.html" %}
+
+
+{% block title %} Demands {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <section class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <!-- <h1 class="display-5">Truck #{{ id }}</h1> -->
+                <!-- <h1 class="f-w-300">Truck #{{ id }}</h1> -->
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <div class="row">
+                                <div class="col-md-2 col-xl-8 text-left">
+                                    <div class="row d-flex align-items-center">
+                                        <h1 class="display-5">&nbsp PATH: {{ date }}</h1>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-block">
+                                        <button class="btn btn-outline-secondary" onclick="location.href=Prev({{ id }}, {{ num_paths }})" type="button" style="height:44px;width:100px">Previous</button>
+                                        <button class="btn btn-outline-secondary" onclick="location.href=Next({{ id }}, {{ num_paths }})" type="button" style="height:44px;width:100px">Next</button>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    function Next(id, num_paths){
+                                        var int_id = parseInt(id);
+                                        if (id < (num_paths)){
+                                            new_id = int_id + 1;
+                                        }
+                                        else{
+                                            new_id = 1;
+                                        }
+                                        return new_id
+                                    }
+                                </script>
+                                <script type="text/javascript">
+                                    function Prev(id, num_paths){
+                                        var int_id = parseInt(id);
+                                        if (id != 1){
+                                            new_id = int_id -1;
+                                        }
+                                        else{
+                                            new_id = num_paths;
+                                        }
+                                        return new_id
+                                    }
+                                </script>
+                            </div>
+                            <hr style="height:0px;">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!-- [ basic-table ] start -->
+                                <div class="col-md-6 col-xl-8">
+                                    <div class="card">
+                                        {{ map|safe}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-4">
+                                    <div class="card">
+                                        <div class="card-block border-bottom">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-zap f-30 text-c-green"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ total_distance }} Miles</h3>
+                                                    <span class="d-block text-uppercase">TOTAL DISTANCE</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-block border-bottom">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-zap f-30 text-c-green"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ total_duration }} Hours</h3>
+                                                    <span class="d-block text-uppercase">TOTAL DURATION</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ total_load }} ft <sup>3</sup></h3>
+                                                    <span class="d-block text-uppercase">TOTAL LOAD</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Deliveries</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <!-- <th>Stop #</th> -->
+                                                            <th>Address</th>
+                                                            <th>Load Delivered</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for location in locations %}
+                                                        <tr>
+                                                            <!-- <th scope="row">{{ delivery.id }}</th> -->
+                                                            <td>{{ location.address }}</td>
+                                                            <td>{{ location.load }} ft<sup>3</sup></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

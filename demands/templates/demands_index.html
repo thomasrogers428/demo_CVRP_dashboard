@@ -1,0 +1,77 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Demands {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <section class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">          
+                    <div class="col-md-0 text-right">
+                        <div class="btn-group mb-3 mr-2 text-right">
+                            <div class="card-block">
+                                <button class="btn btn-outline-primary" onclick="location.href='/demands/add/'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Demand</button>
+                                <button class="btn btn-outline-danger" onclick="location.href='/demands/delete/'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delete Demand</button>
+                                <!-- <button class="btn btn-outline-dark" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Edit Demand</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!-- [ basic-table ] start -->
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Demands</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Address</th>
+                                                            <th>Load</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for demand in demands %}
+                                                        <tr>
+                                                            {% if demand.id == 1 %}
+                                                                <th scope="row">1</th>
+                                                                <td>{{ demand.address }} <b> &nbsp (Depot)</b></td>
+                                                                <td>None</td>
+                                                            {% else %}
+                                                                <th scope="row">{{ demand.id }}</th>
+                                                                <td>{{ demand.address }}</td>
+                                                                <td>{{ demand.load }} ft<sup>3</sup></td>
+                                                            {% endif %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
