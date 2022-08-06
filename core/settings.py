@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'demands',
     'paths',
     'logs',
-    'leaflet',
+    # 'leaflet',
     'apps.home'  # Enable the inner home (home)
 ]
 
