@@ -1,1 +1,1 @@
-web: gunicorn hobie-dashboard.wsgi --log-file -
+web: gunicorn hobie-dashboard.wsgi
