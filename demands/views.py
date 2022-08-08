@@ -56,7 +56,7 @@ def demand_index(request):
 
     # return render(request, loader.get_template('demands/demands_index.html'), context)
 
-    html_template = loader.get_template('demands/demands_index.html')
+    html_template = loader.get_template('demands_index.html')
     return HttpResponse(html_template.render(context, request))
 
 
@@ -64,7 +64,7 @@ def add(request):
     context = {}
     # return render(request, loader.get_template('demands/demands_add.html'), context)
 
-    html_template = loader.get_template('demands/demands_add.html')
+    html_template = loader.get_template('demands_add.html')
     return HttpResponse(html_template.render(context, request))
 
 
@@ -84,7 +84,7 @@ def delete(request):
 
     print(context)
     # return render(request, loader.get_template('demands/demands_delete.html'), context)
-    html_template = loader.get_template('demands/demands_delete.html')
+    html_template = loader.get_template('demands_delete.html')
     return HttpResponse(html_template.render(context, request))
 
 

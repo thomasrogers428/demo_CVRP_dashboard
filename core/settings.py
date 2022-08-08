@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'django.contrib.gis',
-    'apps.demands',
-    'apps.paths',
-    'apps.logs',
+    'demands',
+    'paths',
+    'logs',
     'apps.home'  # Enable the inner home (home)
 ]
 
