@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 import os
 import environ
-import django_heroku
+import dj_database_url
 
 env = environ.Env(
     # set casting, default value
@@ -108,6 +108,9 @@ else:
         }
     }
 
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -151,8 +154,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'apps/static'),
 )
-
-django_heroku.settings(locals())
 
 
 #############################################################

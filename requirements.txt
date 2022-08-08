@@ -13,6 +13,7 @@ Django==3.2.13
 django-environ==0.8.1
 django-heroku==0.3.1
 django-leaflet==0.28.3
+environ==1.0
 Fiona==1.8.21
 folium==0.12.1.post1
 geographiclib==1.52
