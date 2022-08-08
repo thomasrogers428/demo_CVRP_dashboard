@@ -12,9 +12,9 @@ urlpatterns = [
     path("", include("apps.authentication.urls")),
 
     # ADD NEW Routes HERE
-    path('demands/', include('demands.urls')),
-    path('paths/', include('paths.urls')),
-    path('logs/', include('logs.urls')),
+    path('demands/', include("apps.demands.urls")),
+    path('paths/', include("apps.paths.urls")),
+    path('logs/', include("apps.logs.urls")),
 
     # Leave `Home.Urls` as last the last line
     path("", include("apps.home.urls"))

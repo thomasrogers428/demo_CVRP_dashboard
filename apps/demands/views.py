@@ -2,6 +2,7 @@ from django.shortcuts import render
 import sqlite3
 from . import forms
 from geopy.geocoders import Nominatim
+from django.template import loader
 
 # Create your views here.
 from django.http import HttpResponse
@@ -53,12 +54,18 @@ def demand_index(request):
 
     context['demands'] = process_demands()
 
-    return render(request, 'demands_index.html', context)
+    # return render(request, loader.get_template('demands/demands_index.html'), context)
+
+    html_template = loader.get_template('demands/demands_index.html')
+    return HttpResponse(html_template.render(context, request))
 
 
 def add(request):
     context = {}
-    return render(request, 'demands_add.html', context)
+    # return render(request, loader.get_template('demands/demands_add.html'), context)
+
+    html_template = loader.get_template('demands/demands_add.html')
+    return HttpResponse(html_template.render(context, request))
 
 
 def delete(request):
@@ -76,7 +83,9 @@ def delete(request):
     context['test'] = "This is a test"
 
     print(context)
-    return render(request, 'demands_delete.html', context)
+    # return render(request, loader.get_template('demands/demands_delete.html'), context)
+    html_template = loader.get_template('demands/demands_delete.html')
+    return HttpResponse(html_template.render(context, request))
 
 
 def get_demands():

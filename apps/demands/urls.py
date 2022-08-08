@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from apps.demands import views
 
 urlpatterns = [
     path('', views.demand_index, name='demand_index'),
