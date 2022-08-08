@@ -3,58 +3,85 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+# from django import forms
+# from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.models import User
+
+
+# class LoginForm(forms.Form):
+#     username = forms.CharField(
+#         widget=forms.TextInput(
+#             attrs={
+#                 "placeholder": "Username",
+#                 "class": "form-control"
+#             }
+#         ))
+#     password = forms.CharField(
+#         widget=forms.PasswordInput(
+#             attrs={
+#                 "placeholder": "Password",
+#                 "class": "form-control"
+#             }
+#         ))
+
+
+# class SignUpForm(UserCreationForm):
+#     username = forms.CharField(
+#         widget=forms.TextInput(
+#             attrs={
+#                 "placeholder": "Username",
+#                 "class": "form-control"
+#             }
+#         ))
+#     email = forms.EmailField(
+#         widget=forms.EmailInput(
+#             attrs={
+#                 "placeholder": "Email",
+#                 "class": "form-control"
+#             }
+#         ))
+#     password1 = forms.CharField(
+#         widget=forms.PasswordInput(
+#             attrs={
+#                 "placeholder": "Password",
+#                 "class": "form-control"
+#             }
+#         ))
+#     password2 = forms.CharField(
+#         widget=forms.PasswordInput(
+#             attrs={
+#                 "placeholder": "Password check",
+#                 "class": "form-control"
+#             }
+#         ))
+
+#     class Meta:
+#         model = User
+#         fields = ('username', 'email', 'password1', 'password2')
+
+from django.contrib import admin
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
+from .models import User
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Username",
-                "class": "form-control"
-            }
-        ))
-    password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Password",
-                "class": "form-control"
-            }
-        ))
+class MyUserCreationForm(UserCreationForm):
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        try:
+            User._default_manager.get(username=username)
+        except User.DoesNotExist:
+            return username
+        raise forms.ValidationError(self.error_messages['duplicate_username'])
 
-
-class SignUpForm(UserCreationForm):
-    username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Username",
-                "class": "form-control"
-            }
-        ))
-    email = forms.EmailField(
-        widget=forms.EmailInput(
-            attrs={
-                "placeholder": "Email",
-                "class": "form-control"
-            }
-        ))
-    password1 = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Password",
-                "class": "form-control"
-            }
-        ))
-    password2 = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "placeholder": "Password check",
-                "class": "form-control"
-            }
-        ))
-
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+
+
+class UserAdmin(AuthUserAdmin):
+    add_form = MyUserCreationForm
+    update_form_class = UserChangeForm
+
+
+admin.site.register(User, UserAdmin)
