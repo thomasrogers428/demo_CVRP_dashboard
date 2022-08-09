@@ -4,6 +4,8 @@ import folium
 from . import CVRP_TD
 from datetime import date, datetime
 
+db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+
 
 def path_index(request):
     print("Request:", request, request.method, request.POST.get('spec'))
@@ -73,7 +75,7 @@ def truck_info_view(request, id=id):
 
 def load_paths():
 
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT processed_demand_id, truck_id, order_number FROM assignments")
@@ -116,7 +118,7 @@ def handle_paths():
 
             processed_demand_id = delivery[0]
 
-            conn = sqlite3.connect('demands.sqlite3')
+            conn = sqlite3.connect(db_name)
             cur = conn.cursor()
 
             cur.execute("SELECT load FROM processed_demands WHERE processed_demand_id = ?",
@@ -136,7 +138,7 @@ def handle_paths():
 
 def handle_truck_info(id):
 
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT processed_demand_id, distance, duration FROM assignments WHERE truck_id = ?", (id,))
@@ -192,7 +194,7 @@ def handle_truck_info(id):
 
 
 def get_total_shipped():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT processed_demand_id FROM assignments")
     ids = c.fetchall()
@@ -209,7 +211,7 @@ def get_total_shipped():
 
 
 def get_total_capacity():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT capacity FROM trucks")
     capacities = c.fetchall()
@@ -223,7 +225,7 @@ def get_total_capacity():
 
 
 def get_num_trucks():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT COUNT(*) FROM trucks")
     num_trucks = c.fetchall()[0][0]
@@ -233,7 +235,7 @@ def get_num_trucks():
 
 
 def handle_dropped_loads():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT processed_demand_id FROM dropped")
 
@@ -265,7 +267,7 @@ def log_path(paths):
     for path in paths:
         total_load += path['total_load']
 
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
 
     cur.execute("SELECT distance, duration FROM assignments")
@@ -325,7 +327,7 @@ def log_path(paths):
 
 
 def clear_demands(paths):
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
 
     for path in paths:
