@@ -12,6 +12,8 @@ from django.shortcuts import render
 import sqlite3
 import folium
 
+db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+
 
 @login_required(login_url="/login/")
 def index(request):
@@ -81,7 +83,7 @@ def pages(request):
 
 
 def get_total_demand():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT load FROM demands")
     demands = c.fetchall()
@@ -95,7 +97,7 @@ def get_total_demand():
 
 
 def get_total_capacity():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT capacity FROM trucks")
     capacities = c.fetchall()
@@ -110,7 +112,7 @@ def get_total_capacity():
 
 def get_delivery_locations():
 
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT address, longitude, latitude FROM demands")

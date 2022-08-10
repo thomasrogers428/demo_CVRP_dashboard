@@ -13,6 +13,7 @@ from . import database_setup
 from . import process_data
 from . import produce_matricies
 
+db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
 
 """GLOBALS"""
 DURATION_TO_DISTANCE = (
@@ -259,7 +260,7 @@ def print_solution(data, manager, routing, solution, location_dict):
 
 def send_solution_to_db(data, manager, routing, solution, location_dict, conn):
 
-    database = "demands.sqlite3"
+    database = db_name
     conn = database_setup.create_connection(database)
 
     cur = conn.cursor()
@@ -329,7 +330,7 @@ def solve():
     else:
         location_dict = {}
 
-    database = "demands.sqlite3"
+    database = db_name
 
     conn = database_setup.create_connection(database)
 

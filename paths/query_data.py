@@ -3,6 +3,8 @@ from sqlite3 import Error
 
 from . import database_setup
 
+db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+
 
 def query_truck_data(conn):
 
@@ -30,7 +32,7 @@ def query_demands_data(conn):
 
 def query_data():
 
-    database = "demands.sqlite3"
+    database = db_name
     conn = database_setup.create_connection(database)
 
     trucks = query_truck_data(conn)

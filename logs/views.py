@@ -3,6 +3,8 @@ import sqlite3
 import folium
 # Create your views here.
 
+db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+
 
 def logs_index(request):
     context = {'segment': 'logs'}
@@ -52,7 +54,7 @@ def logged_path_info_view(request, id=id):
 
 
 def get_logged_paths():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT logged_path_id, date, time, total_load FROM logged_paths")
@@ -68,7 +70,7 @@ def get_logged_paths():
 
 
 def get_total_distance(id):
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT total_distance FROM logged_paths WHERE logged_path_id = ?", (id,))
@@ -78,7 +80,7 @@ def get_total_distance(id):
 
 
 def get_total_duration(id):
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT total_duration FROM logged_paths WHERE logged_path_id = ?", (id,))
@@ -88,7 +90,7 @@ def get_total_duration(id):
 
 
 def get_total_load(id):
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT total_load FROM logged_paths WHERE logged_path_id = ?", (id,))
@@ -98,7 +100,7 @@ def get_total_load(id):
 
 
 def get_date(id):
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT date FROM logged_paths WHERE logged_path_id = ?", (id,))
@@ -108,7 +110,7 @@ def get_date(id):
 
 
 def get_locations(id):
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     cur.execute(
         "SELECT address, load, latitude, longitude FROM logged_deliveries WHERE logged_path_id = ?", (id,))
@@ -124,7 +126,7 @@ def get_locations(id):
 
 
 def get_num_paths():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT COUNT(*) FROM logged_paths")
     num_paths = c.fetchall()[0][0]

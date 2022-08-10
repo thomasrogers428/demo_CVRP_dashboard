@@ -7,6 +7,8 @@ from django.template import loader
 # Create your views here.
 from django.http import HttpResponse
 
+db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+
 
 def demand_index(request):
     context = {'segment': 'demands'}
@@ -33,7 +35,7 @@ def demand_index(request):
 
             print(address, load)
 
-            conn = sqlite3.connect('demands.sqlite3')
+            conn = sqlite3.connect(db_name)
             c = conn.cursor()
             c.execute("INSERT INTO demands (address, load, longitude, latitude) VALUES (?, ?, ?, ?)",
                       (address, load, longitude, latitude))
@@ -42,7 +44,7 @@ def demand_index(request):
         elif t == "Delete":
             address = request.POST.get('address')
             print("Address: ", address)
-            conn = sqlite3.connect('demands.sqlite3')
+            conn = sqlite3.connect(db_name)
             c = conn.cursor()
             c.execute("DELETE FROM demands WHERE address = ?",
                       (address,))
@@ -70,7 +72,7 @@ def add(request):
 
 def delete(request):
 
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT address FROM demands")
     as_fetched = c.fetchall()
@@ -89,7 +91,7 @@ def delete(request):
 
 
 def get_demands():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     c = conn.cursor()
     c.execute("SELECT * FROM demands")
     demands = c.fetchall()
