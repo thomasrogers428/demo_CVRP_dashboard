@@ -105,7 +105,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'home/trogers/db.sqlite3',
+            'NAME': '/home/trogers/db.sqlite3',
         }
     }
 
