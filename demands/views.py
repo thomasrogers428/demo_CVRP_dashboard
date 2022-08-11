@@ -8,6 +8,7 @@ from django.template import loader
 from django.http import HttpResponse
 
 db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 
 def demand_index(request):
@@ -82,10 +83,6 @@ def delete(request):
     for a_fetched in as_fetched:
         context['addresses'].append({"address": a_fetched[0]})
 
-    context['test'] = "This is a test"
-
-    print(context)
-    # return render(request, loader.get_template('demands/demands_delete.html'), context)
     html_template = loader.get_template('demands_delete.html')
     return HttpResponse(html_template.render(context, request))
 

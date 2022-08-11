@@ -98,6 +98,47 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="card-block">
+                                            <div class="flex-box">
+                                                <form id="deauth_path_form" action="/logs/" dataid={{ id }} onsubmit="deauthorizingPage()" method="POST">
+                                                    {% csrf_token %}
+                                                    <input class="btn btn-outline-danger" id="deauthorize_path" value="De-Authorize Path"  name ="deauthorize_path" dataid={{ id }} type="submit"></input>
+                                                </form> 
+
+                                                <script type = "text/javascript">
+                                                    function deauthorizingPage(){
+                                                        var input = document.getElementById("deauthorize_path");
+                                                        input.value = "De-Authorizing..."
+                                                    }
+                                                </script>
+        
+                                                <script src="https://code.jquery.com/jquery-3.5.1.js" 
+                                                                integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+                                                                    crossorigin="anonymous">
+                                                </script>
+                                                        
+                                                <script type="text/javascript">
+                                                $(document).on('submit','#deauth_path_form',function(e){
+                                                    e.preventDefault();
+                                                    $.ajax({
+                                                        type:'POST',
+                                                        url:'{% url "logs_index" %}',
+                                                        data:
+                                                        {
+                                                            spec: "deauthorize_path",
+                                                            dataid: $("#deauth_path_form").attr("dataid"),
+                                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                                                        },
+                                                        success:function(){
+                                                            location.href="/logs/";
+                                                            alert("De-Authorized");
+                                                            // window.location.reload();
+                                                            }
+                                                        })
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-xl-12">

@@ -4,12 +4,26 @@ import folium
 # Create your views here.
 
 db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 
-def logs_index(request):
+def logs_index_view(request):
     context = {'segment': 'logs'}
+    print("Request:", request, request.method, request.POST.get('spec'))
+
+    if request.method == "POST" and request.POST.get('spec') == 'deauthorize_path':
+        id = request.POST.get('dataid')
+        print("Deauthorizing path:", id)
+
+        deauthorize_path(id)
+        reset_logged_ids()
 
     context['paths'] = get_logged_paths()
+
+    if len(context['paths']) == 0:
+        context['paths_empty'] = True
+    else:
+        context['paths_empty'] = False
 
     return render(request, 'logs_index.html', context)
 
@@ -133,3 +147,50 @@ def get_num_paths():
 
     conn.close()
     return num_paths
+
+
+def deauthorize_path(id):
+    conn = sqlite3.connect(db_name)
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT logged_delivery_id, address, load, longitude, latitude FROM logged_deliveries WHERE logged_path_id = ?", (id,))
+
+    deliveries = cur.fetchall()
+
+    for delivery in deliveries:
+
+        cur.execute(
+            "SELECT load FROM demands WHERE address = ?", (delivery[1],))
+        check_load = cur.fetchall()
+
+        if check_load:
+            cur.execute("UPDATE demands SET load = ? WHERE address = ?",
+                        (check_load[0][0] + delivery[2], delivery[1]))
+        else:
+            cur.execute(
+                "INSERT INTO demands (address, load, longitude, latitude) VALUES (?, ?, ?, ?)", (delivery[1], delivery[2], delivery[3], delivery[4]))
+
+        cur.execute(
+            "DELETE FROM logged_deliveries WHERE logged_delivery_id = ?", (delivery[0],))
+
+    cur.execute("DELETE FROM logged_paths WHERE logged_path_id = ?", (id,))
+
+    conn.commit()
+    conn.close()
+
+
+def reset_logged_ids():
+
+    conn = sqlite3.connect(db_name)
+    cur = conn.cursor()
+    count = 1
+    cur.execute("SELECT logged_path_id FROM logged_paths")
+    logged_path_ids = cur.fetchall()
+    for id in logged_path_ids:
+        cur.execute(
+            "UPDATE logged_deliveries SET logged_path_id = ? WHERE logged_path_id = ?", (count, id[0]))
+        cur.execute(
+            "UPDATE logged_paths SET logged_path_id = ? WHERE logged_path_id = ?", (count, id[0]))
+        count += 1
+    conn.commit()
+    conn.close()

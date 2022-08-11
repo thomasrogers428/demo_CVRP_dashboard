@@ -50,7 +50,7 @@
                                                 success:function(){
                                                     // window.location.href="/paths/";
                                                     window.location.reload();
-                                                    alert("Handled");
+                                                    alert("Path calculated");
                                                     }
                                                 })
                                             });
@@ -64,6 +64,35 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h5>Paths</h5>
+                                            <form id="path_reset" method="POST">
+                                                {% csrf_token %}
+                                                <button class="btn btn-outline-secondary" style="position:absolute;top:12px;right:0;height:40px;width:60px;"><i class="feather icon-refresh-cw f-18 m-r-15"></i></button>
+                                            <form>
+        
+                                            <script src="https://code.jquery.com/jquery-3.5.1.js" 
+                                                            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+                                                                crossorigin="anonymous">
+                                            </script>
+                                                    
+                                            <script type="text/javascript">
+                                            $(document).on('submit','#path_reset',function(e){
+                                                e.preventDefault();
+                                                $.ajax({
+                                                    type:'POST',
+                                                    url:'{% url "path_index" %}',
+                                                    data:
+                                                    {
+                                                        spec: "path_reset",
+                                                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                                                    },
+                                                    success:function(){
+                                                        // window.location.href="/paths/";
+                                                        window.location.reload();
+                                                        alert("Path Reset");
+                                                        }
+                                                    })
+                                                });
+                                            </script>
                                         </div>
                                         <div class="col-md-6 col-xl-12">
                                             <div class="card-block table-border-style">
@@ -88,66 +117,65 @@
                                                         {% endfor %}
                                                         </tbody> 
                                                     </table>
+                                                    {% if paths_empty %}
+                                                        <p style="font-size: 12px; text-align: center"> No paths found. Click Calculate Path to find paths.<p>
+                                                    {% endif %}
                                                 </div>
-                                                <div class="col-md-0 text-right">
-                                                    <div class="text-right">
-                                                        <div class="card-block">
-                                                            <div class="row">
-                                                                <div class="col-md-6 col-xl-8 text-left">
-                                                                    <div class="row d-flex align-items-center">
-                                                                        <p style="font-size: 12px">Authorizing the Path will log the deliveries and remove satisfied demands from the demands tab.</p>
+                                                {% if not paths_empty %}
+                                                    <div class="col-md-0 text-right">
+                                                        <div class="text-right">
+                                                            <div class="card-block">
+                                                                <div class="row">
+                                                                    <div class="col-md-6 col-xl-8 text-left">
+                                                                        <div class="row d-flex align-items-center">
+                                                                            <p style="font-size: 12px">Authorizing the Path will log the deliveries and remove satisfied demands from the demands tab.</p>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                
-                                                                <div class="col-md-4">
-                                                                    <form id="auth_path_form" method="POST">
-                                                                        {% csrf_token %}
-                                                                        
-                                                                        <input class="btn btn-success" id="authorize_path" value="Authorize Path" name ="authorize_path" type="submit"></input>
-                                                                    </form> 
-                                                                </div>
-                                                                
-                                                            </div>
-
-                                                            <script type = "text/javascript">
-                                                                function authorizingPage(){
-                                                                    var input = document.getElementById("authorize_path");
-                                                                    input.value = "Authorizing..."
-                                                                }
-                                                            </script>
-                                                            
-                                                            <!-- <form id="calc_path_form" method="POST">
-                                                                {% csrf_token %}
-                                                                <button class="btn btn-primary" id="calculate_path" value="Calculate Path" name ="calculate_path" type="submit">Calculate Path</button>
-                                                            </form>  -->
-                    
-                                                            <script src="https://code.jquery.com/jquery-3.5.1.js" 
-                                                                            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
-                                                                                crossorigin="anonymous">
-                                                            </script>
                                                                     
-                                                            <script type="text/javascript">
-                                                            $(document).on('submit','#auth_path_form',function(e){
-                                                                e.preventDefault();
-                                                                $.ajax({
-                                                                    type:'POST',
-                                                                    url:'{% url "path_index" %}',
-                                                                    data:
-                                                                    {
-                                                                        spec: "authorize_path",
-                                                                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
-                                                                    },
-                                                                    success:function(){
-                                                                        // window.location.href="/paths/";
-                                                                        window.location.reload();
-                                                                        alert("Authorized");
-                                                                        }
-                                                                    })
-                                                                });
-                                                            </script>
+                                                                    <div class="col-md-4">
+                                                                        <form id="auth_path_form" method="POST">
+                                                                            {% csrf_token %}
+                                                                            <input class="btn btn-success" id="authorize_path" value="Authorize Path" name ="authorize_path" type="submit"></input>
+                                                                        </form> 
+                                                                    </div>
+                                                                    
+                                                                </div>
+
+                                                                <script type = "text/javascript">
+                                                                    function authorizingPage(){
+                                                                        var input = document.getElementById("authorize_path");
+                                                                        input.value = "Authorizing..."
+                                                                    }
+                                                                </script>
+                        
+                                                                <script src="https://code.jquery.com/jquery-3.5.1.js" 
+                                                                                integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+                                                                                    crossorigin="anonymous">
+                                                                </script>
+                                                                        
+                                                                <script type="text/javascript">
+                                                                $(document).on('submit','#auth_path_form',function(e){
+                                                                    e.preventDefault();
+                                                                    $.ajax({
+                                                                        type:'POST',
+                                                                        url:'{% url "path_index" %}',
+                                                                        data:
+                                                                        {
+                                                                            spec: "authorize_path",
+                                                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                                                                        },
+                                                                        success:function(){
+                                                                            // window.location.href="/paths/";
+                                                                            window.location.reload();
+                                                                            alert("Path Authorized");
+                                                                            }
+                                                                        })
+                                                                    });
+                                                                </script>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
@@ -188,21 +216,36 @@
                                                 </div> -->
                                                 <div class="col">
                                                     <h3 class="f-w-300">{{ dropped_load_total }} <span style="font-size:22px">ft<sup>3</sup> </span></h3>
-                                                    <span class="d-block text-uppercase">UNDELIVERED LOAD</span>
+                                                    <span class="d-block text-uppercase">UNDELIVERED LOAD SIZE</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        {% comment %} <div class="card-block">
-                                            <div class="row d-flex align-items-center">
-                                                <!-- <div class="col-auto">
-                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
-                                                </div> -->
-                                                <div class="col">
-                                                    <h3 class="f-w-300">{{ total_capacity }}</h3>
-                                                    <span class="d-block text-uppercase">TOTAL CAPACITY</span>
-                                                </div>
-                                            </div>
-                                        </div> {% endcomment %}
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 style="font-size:14.5px">Undeliveried Demands</h5>
+                                        </div>
+                                        <div class="table-responsive" style="boarder-right-width:8px;background-color:White;">
+                                            {% comment %} <div class="card-block table-border-style"> {% endcomment %}
+                                            <div>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Address</th>
+                                                            <th>Load</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for drop in drops %}
+                                                        <tr>
+                                                            <td>{{ drop.address }}</td>
+                                                            <td>{{ drop.load  }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody> 
+                                                </table>
+                                            {% comment %} </div> {% endcomment %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

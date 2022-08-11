@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'demands',
     'paths',
     'logs',
+    'trucks',
     'apps.home'  # Enable the inner home (home)
 ]
 
@@ -106,6 +107,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': '/home/trogers/db.sqlite3',
+            # 'NAME': 'db.sqlite3',
         }
     }
 

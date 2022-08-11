@@ -14,6 +14,7 @@ from . import process_data
 from . import produce_matricies
 
 db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 """GLOBALS"""
 DURATION_TO_DISTANCE = (
@@ -272,7 +273,7 @@ def send_solution_to_db(data, manager, routing, solution, location_dict, conn):
         if routing.IsStart(node) or routing.IsEnd(node):
             continue
         if solution.Value(routing.NextVar(node)) == node:
-            database_setup.add_dropped(conn, (manager.IndexToNode(node),))
+            database_setup.add_dropped(conn, (manager.IndexToNode(node)+1,))
 
     for vehicle_id in range(data['num_vehicles']):
 
@@ -312,10 +313,10 @@ def solve():
     # data['distance_matrix'] = create_matrices(data)[0]
     # data['duration_matrix'] = create_matrices(data)[1]
 
-    distance_matrix_file = open(
-        "/Users/tommyrogers/Desktop/Hobie_Dashboard/django-datta-able/paths/distance_matrix.pkl", "rb")
-    duration_matrix_file = open(
-        "/Users/tommyrogers/Desktop/Hobie_Dashboard/django-datta-able/paths/duration_matrix.pkl", "rb")
+    # distance_matrix_file = open(
+    #     "/Users/tommyrogers/Desktop/Hobie_Dashboard/django-datta-able/paths/distance_matrix.pkl", "rb")
+    # duration_matrix_file = open(
+    #     "/Users/tommyrogers/Desktop/Hobie_Dashboard/django-datta-able/paths/duration_matrix.pkl", "rb")
 
     # data['distance_matrix'] = pickle.load(distance_matrix_file)
 

@@ -15,6 +15,7 @@ urlpatterns = [
     path('demands/', include('demands.urls')),
     path('paths/', include('paths.urls')),
     path('logs/', include('logs.urls')),
+    path('trucks/', include('trucks.urls')),
 
     # Leave `Home.Urls` as last the last line
     path("", include("apps.home.urls"))

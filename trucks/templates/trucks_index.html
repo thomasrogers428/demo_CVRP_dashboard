@@ -1,0 +1,106 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Demands {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <section class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">          
+                    <div class="col-md-0 text-right">
+                        <div class="btn-group mb-3 mr-2 text-right">
+                            <div class="card-block">
+                                <button class="btn btn-outline-primary" onclick="location.href='/trucks/add/'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Truck</button>
+                                <button class="btn btn-outline-danger" onclick="location.href='/trucks/delete/'" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delete Truck</button>
+                                <!-- <button class="btn btn-outline-dark" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Edit Demand</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!-- [ basic-table ] start -->
+                                <div class="col-xl-8">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Trucks</h5>
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Capacity</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for truck in trucks %}
+                                                        <tr>
+                                                            <th scope="row">{{ truck.truck_id }}</th>
+                                                            <td>{{ truck.capacity }} ft<sup>3</sup></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ num_trucks }}</h3>
+                                                    <div><span class="d-block text-uppercase">NUMBER OF TRUCKS</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ total_capacity }}<span style="font-size:22px">  ft<sup>3</sup> </span></h3>
+                                                    <div><span class="d-block text-uppercase">TOTAL CAPACITY</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ average_capacity }}<span style="font-size:22px">  ft<sup>3</sup> </span></h3>
+                                                    <div><span class="d-block text-uppercase">AVERAGE TRUCK CAPACITY</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

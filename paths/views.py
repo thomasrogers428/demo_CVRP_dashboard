@@ -5,6 +5,7 @@ from . import CVRP_TD
 from datetime import date, datetime
 
 db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 
 def path_index(request):
@@ -22,6 +23,9 @@ def path_index(request):
         CVRP_TD.solve()
         context['loaded'] = True
 
+    if request.method == "POST" and request.POST.get('spec') == 'path_reset':
+        path_reset()
+
     context['paths'] = handle_paths()
     print("Context:", context)
 
@@ -31,6 +35,11 @@ def path_index(request):
         log_path(context['paths'])
         clear_demands(context['paths'])
         context['paths'] = []
+
+    if len(context['paths']) == 0:
+        context['paths_empty'] = True
+    else:
+        context['paths_empty'] = False
 
     return render(request, 'paths_index.html', context)
 
@@ -252,7 +261,8 @@ def handle_dropped_loads():
             "SELECT address, load FROM processed_demands WHERE processed_demand_id = ?", (id,))
 
         dropped = c.fetchall()
-        drops.append(dropped[0])
+        drops.append(
+            {'id': id, 'address': dropped[0][0], 'load': dropped[0][1]})
 
         dropped_load_total += (dropped[0][1])
 
@@ -392,3 +402,15 @@ def clear_demands(paths):
     conn.close()
 
     return paths
+
+
+def path_reset():
+    conn = sqlite3.connect(db_name)
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM assignments")
+    cur.execute("DELETE FROM processed_demands")
+    cur.execute("DELETE FROM dropped")
+
+    conn.commit()
+    conn.close()

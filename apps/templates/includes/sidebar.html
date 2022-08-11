@@ -5,7 +5,8 @@
             <a href="/" class="b-brand">
                 <!-- <div class="b-bg"> -->
                 <div>
-                    <i class="feather icon-package"></i>
+                    {% comment %} <i class="feather icon-package"></i> {% endcomment %}
+                    <i class="fa fa-box-open"></i>
                 </div>
                 <span class="b-title"><b>Hobie Routing</b></span>
             </a>
@@ -13,12 +14,18 @@
         </div>
         <div class="navbar-content scroll-div">
             <ul class="nav pcoded-inner-navbar">
-                <!-- <li class="nav-item pcoded-menu-caption">
-                    <label>Navigation</label>
-                </li> -->
-                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
+                
+                {% comment %} <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
                     class="nav-item {% if 'index' in segment %} active {% endif %}">
                     <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                            class="pcoded-mtext">Dashboard</span></a>
+                </li> {% endcomment %}
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Home</label>
+                </li>
+                <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" 
+                    class="nav-item {% if 'index' in segment %} active {% endif %}">
+                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="fa fa-home"></i></span><span
                             class="pcoded-mtext">Dashboard</span></a>
                 </li>
                 <!-- <li data-username="Profile Page" 
@@ -27,21 +34,51 @@
                         <span class="pcoded-micon"><i class="feather icon-user"></i></span>
                             <span class="pcoded-mtext">Profile Page</span></a>
                 </li>   -->
-                <li data-username="Deliveries" 
+                {% comment %} <li data-username="Deliveries" 
                     class="nav-item {% if 'demands' in segment %} active {% endif %}">
                     <a href="/demands/" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-server"></i></span><span class="pcoded-mtext">Demands</span></a>
+                </li> {% endcomment %}
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Information</label>
+                </li>
+                <li data-username="Deliveries" 
+                    class="nav-item {% if 'demands' in segment %} active {% endif %}">
+                    <a href="/demands/" class="nav-link "><span class="pcoded-micon"><i
+                            class="fa fa-truck-loading"></i></span><span class="pcoded-mtext">Demands</span></a>
+                </li>
+                <li data-username="Trucks" 
+                    class="nav-item {% if 'trucks' in segment %} active {% endif %}">
+                    <a href="/trucks/" class="nav-link "><span class="pcoded-micon"><i
+                            class="fa fa-truck"></i></span><span class="pcoded-mtext">Trucks</span></a>
+                </li> 
+                {% comment %} <li data-username="Path" 
+                    class="nav-item {% if 'path' in segment %} active {% endif %}">
+                    <a href="/paths/" class="nav-link "><span class="pcoded-micon"><i
+                            class="feather icon-map"></i></span><span class="pcoded-mtext">Paths</span></a>
+                </li>    {% endcomment %}
+                <li class="nav-item pcoded-menu-caption">
+                    <label>Calculation</label>
                 </li>
                 <li data-username="Path" 
                     class="nav-item {% if 'path' in segment %} active {% endif %}">
                     <a href="/paths/" class="nav-link "><span class="pcoded-micon"><i
-                            class="feather icon-map"></i></span><span class="pcoded-mtext">Paths</span></a>
-                </li>   
-                <li data-username="Logs" 
+                            class="fa fa-map"></i></span><span class="pcoded-mtext">Paths</span></a>
+                </li>
+                {% comment %} <li data-username="Logs" 
                     class="nav-item {% if 'logs' in segment %} active {% endif %}">
                     <a href="/logs/" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-file-text"></i></span><span class="pcoded-mtext">Logs</span></a>
-                </li>       
+                </li>    {% endcomment %}
+                <li class="nav-item pcoded-menu-caption">
+                    <label>History</label>
+                </li>
+                <li data-username="Logs" 
+                    class="nav-item {% if 'logs' in segment %} active {% endif %}">
+                    <a href="/logs/" class="nav-link "><span class="pcoded-micon"><i
+                            class="fa fa-file-alt"></i></span><span class="pcoded-mtext">Logs</span></a>
+                </li>  
+                     
                 <!-- <li class="nav-item pcoded-menu-caption">
                     <label>UI Element</label>
                 </li>
