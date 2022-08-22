@@ -1,8 +1,8 @@
 from django.shortcuts import render
 import sqlite3
 
-# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
-db_name = 'demands.sqlite3'
+db_name = '/home/trogers/demo_CVRP_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 
 def trucks_index_view(request):

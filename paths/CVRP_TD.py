@@ -13,8 +13,8 @@ from . import database_setup
 from . import process_data
 from . import produce_matricies
 
-# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
-db_name = 'demands.sqlite3'
+db_name = '/home/trogers/demo_CVRP_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 """GLOBALS"""
 DURATION_TO_DISTANCE = (

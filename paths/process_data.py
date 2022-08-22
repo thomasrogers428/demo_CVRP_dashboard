@@ -36,12 +36,12 @@ def create_data_model():
 
     data['depot'] = 0
 
-    load_dotenv()
-    data['API_KEY'] = os.getenv('API_KEY')
-
-    # project_folder = os.path.expanduser('/home/trogers/hobie_dashboard')
-    # load_dotenv(os.path.join(project_folder, '.env'))
+    # load_dotenv()
     # data['API_KEY'] = os.getenv('API_KEY')
+
+    project_folder = os.path.expanduser('/home/trogers/demo_CVRP_dashboard')
+    load_dotenv(os.path.join(project_folder, '.env'))
+    data['API_KEY'] = os.getenv('API_KEY')
 
     return data
 

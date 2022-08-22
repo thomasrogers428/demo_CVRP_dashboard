@@ -10,8 +10,8 @@ from .forms import LoginForm, SignUpForm
 import sqlite3
 
 
-# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
-db_name = 'demands.sqlite3'
+db_name = '/home/trogers/demo_CVRP_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 
 def login_view(request):

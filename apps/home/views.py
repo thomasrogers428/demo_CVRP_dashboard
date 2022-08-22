@@ -12,8 +12,8 @@ from django.shortcuts import render
 import sqlite3
 import folium
 
-# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
-db_name = 'demands.sqlite3'
+db_name = '/home/trogers/demo_CVRP_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 
 @login_required(login_url="/login/")

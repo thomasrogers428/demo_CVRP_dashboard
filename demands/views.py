@@ -7,8 +7,8 @@ from django.template import loader
 # Create your views here.
 from django.http import HttpResponse
 
-# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
-db_name = 'demands.sqlite3'
+db_name = '/home/trogers/demo_CVRP_dashboard/demands.sqlite3'
+# db_name = 'demands.sqlite3'
 
 
 def demand_index(request):
