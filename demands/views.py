@@ -7,8 +7,8 @@ from django.template import loader
 # Create your views here.
 from django.http import HttpResponse
 
-db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
-# db_name = 'demands.sqlite3'
+# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+db_name = 'demands.sqlite3'
 
 
 def demand_index(request):
@@ -56,6 +56,19 @@ def demand_index(request):
         print("failed")
 
     context['demands'] = process_demands()
+
+    context['num_demands'] = len(context['demands'])
+
+    context['total_demand'] = 0
+
+    for demand in context['demands']:
+        context['total_demand'] += demand['load']
+
+    if context['num_demands'] != 0:
+        context['average_demand'] = round(context['total_demand'] /
+                                          context['num_demands'], 2)
+    else:
+        context['average_demand'] = 0
 
     # return render(request, loader.get_template('demands/demands_index.html'), context)
 

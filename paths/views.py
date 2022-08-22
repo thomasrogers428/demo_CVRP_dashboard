@@ -4,12 +4,13 @@ import folium
 from . import CVRP_TD
 from datetime import date, datetime
 
-db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
-# db_name = 'demands.sqlite3'
+# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+db_name = 'demands.sqlite3'
 
 
 def path_index(request):
-    print("Request:", request, request.method, request.POST.get('spec'))
+    print("Request:", request, request.method, "Auth:", request.POST.get('auth_spec'),
+          "Calc:", request.POST.get('calc_spec'), "reset:", request.POST.get('reset_spec'))
     context = {'segment': 'paths'}
 
     context['total_shipped'] = get_total_shipped()
@@ -19,19 +20,20 @@ def path_index(request):
 
     context['loaded'] = False
 
-    if request.method == "POST" and request.POST.get('spec') == 'calculate_path':
+    if request.method == "POST" and request.POST.get('calc_spec') == 'calculate_path':
         CVRP_TD.solve()
         context['loaded'] = True
 
-    if request.method == "POST" and request.POST.get('spec') == 'path_reset':
+    if request.method == "POST" and request.POST.get('reset_spec') == 'path_reset':
         path_reset()
 
     context['paths'] = handle_paths()
+
     print("Context:", context)
 
     context['drops'], context['dropped_load_total'] = handle_dropped_loads()
 
-    if request.method == "POST" and request.POST.get('spec') == 'authorize_path':
+    if request.method == "POST" and request.POST.get('auth_spec') == 'authorize_path':
         log_path(context['paths'])
         clear_demands(context['paths'])
         context['paths'] = []
@@ -40,6 +42,11 @@ def path_index(request):
         context['paths_empty'] = True
     else:
         context['paths_empty'] = False
+
+    if len(context['drops']) == 0:
+        context['drops_empty'] = True
+    else:
+        context['drops_empty'] = False
 
     return render(request, 'paths_index.html', context)
 
@@ -50,12 +57,18 @@ def truck_info_view(request, id=id):
     print("id", id)
     deliveries, distance, duration, load = handle_truck_info(id)
     context['deliveries'] = deliveries
-    context['num_trucks'] = get_num_trucks()
+    context['paths'] = handle_paths()
+    context['num_trucks'] = len(context['paths'])
     context['total_distance'] = round(distance*0.000621371, 2)
     context['total_duration'] = round(duration/3600, 2)
     context['total_load'] = load
 
+    # context['id'] = context['paths'][id]['count']
     context['id'] = id
+    for path in context['paths']:
+        if path['truck_id'] == id:
+            context['truck_num'] = path['count']
+            break
 
     m = folium.Map([40, -98], tiles='CartoDB positron',
                    zoom_start=4, scroll_wheel_zoom=False)
@@ -117,6 +130,7 @@ def handle_paths():
     truck_paths = load_paths()
 
     path_info = []
+    count = 1
     for truck_id in truck_paths:
         deliveries = truck_paths[truck_id]
 
@@ -139,8 +153,10 @@ def handle_paths():
 
             total_stops += 1
 
-        path_info.append(
-            {"truck_id": truck_id, "total_load": total_load, "total_stops": total_stops-1})
+        if total_stops != 1:
+            path_info.append(
+                {"truck_id": truck_id, "count": count, "total_load": total_load, "total_stops": total_stops-1})
+            count += 1
 
     return path_info
 

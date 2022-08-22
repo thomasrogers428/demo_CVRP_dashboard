@@ -27,7 +27,7 @@
                             <!-- [ Main Content ] start -->
                             <div class="row">
                                 <!-- [ basic-table ] start -->
-                                <div class="col-xl-12">
+                                <div class="col-xl-8">
                                     <div class="card">
                                         <div class="card-header">
                                             <h5>Demands</h5>
@@ -58,6 +58,43 @@
                                                     {% endfor %}
                                                     </tbody>
                                                 </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ num_demands }}</h3>
+                                                    <div><span class="d-block text-uppercase">NUMBER OF DEMANDS</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ total_demand }}<span style="font-size:22px">  ft<sup>3</sup> </span></h3>
+                                                    <div><span class="d-block text-uppercase">TOTAL DEMAND</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row d-flex align-items-center">
+                                                <!-- <div class="col-auto">
+                                                    <i class="feather icon-map-pin f-30 text-c-blue"></i>
+                                                </div> -->
+                                                <div class="col">
+                                                    <h3 class="f-w-300">{{ average_demand }}<span style="font-size:22px">  ft<sup>3</sup> </span></h3>
+                                                    <div><span class="d-block text-uppercase">AVERAGE DEMAND</span></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

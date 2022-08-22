@@ -13,8 +13,8 @@ from . import database_setup
 from . import process_data
 from . import produce_matricies
 
-db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
-# db_name = 'demands.sqlite3'
+# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+db_name = 'demands.sqlite3'
 
 """GLOBALS"""
 DURATION_TO_DISTANCE = (
@@ -83,7 +83,7 @@ DURATION_TO_DISTANCE = (
 
 def handle_split_loads(data):
     """If a load is larger then a vehicle capacity, split it into multiple loads."""
-    max_capacity = max(data['vehicle_capacities'])
+    max_capacity = min(data['vehicle_capacities'])
 
     location_dict = {}
 
@@ -326,10 +326,12 @@ def solve():
 
     # data['duration_matrix'] = pickle.load(duration_matrix_file)
 
-    if max(data['demands']) > max(data['vehicle_capacities']):
-        data, location_dict = handle_split_loads(data)
-    else:
-        location_dict = {}
+    # if max(data['demands']) > max(data['vehicle_capacities']):
+    #     data, location_dict = handle_split_loads(data)
+    # else:
+    #     location_dict = {}
+
+    data, location_dict = handle_split_loads(data)
 
     database = db_name
 
@@ -385,12 +387,12 @@ def solve():
         routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
     search_parameters.local_search_metaheuristic = (
         routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH)
-    search_parameters.time_limit.seconds = 2
+    search_parameters.time_limit.seconds = 5
 
     solution = routing.SolveWithParameters(search_parameters)
 
     if solution:
-        print_solution(data, manager, routing, solution, location_dict)
+        # print_solution(data, manager, routing, solution, location_dict)
 
         send_solution_to_db(data, manager, routing,
                             solution, location_dict, conn)

@@ -1,6 +1,9 @@
 from django.shortcuts import render
 import sqlite3
 
+# db_name = '/home/trogers/hobie_dashboard/demands.sqlite3'
+db_name = 'demands.sqlite3'
+
 
 def trucks_index_view(request):
     context = {"segment": "trucks"}
@@ -87,7 +90,7 @@ def add_truck(capacity):
 
 
 def delete_truck(truck_id):
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
 
     print("delete truck:", truck_id)
@@ -99,7 +102,7 @@ def delete_truck(truck_id):
 
 
 def renumber_trucks():
-    conn = sqlite3.connect('demands.sqlite3')
+    conn = sqlite3.connect(db_name)
     cur = conn.cursor()
 
     cur.execute("SELECT truck_id FROM trucks")

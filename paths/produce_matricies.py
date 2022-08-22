@@ -45,13 +45,14 @@ def create_matrices():
     for i in range(q):
         origin_addresses = addresses[i * max_rows: (i + 1) * max_rows]
         response = send_request(origin_addresses, dest_addresses, API_key)
+        print(response, origin_addresses)
         distance_matrix += build_distance_matrix(response)
         duration_matrix += build_duration_matrix(response)
 
     if r > 0:
         origin_addresses = addresses[q * max_rows: q * max_rows + r]
         response = send_request(origin_addresses, dest_addresses, API_key)
-        # print(response, origin_addresses, dest_addresses)
+        print(response, origin_addresses)
         distance_matrix += build_distance_matrix(response)
         duration_matrix += build_duration_matrix(response)
 
@@ -88,6 +89,7 @@ def send_request(origin_addresses, dest_addresses, API_key):
 def build_distance_matrix(response):
     """Takes response from Google Maps API and builds a distance matrix."""
     distance_matrix = []
+    # print('responce:', response)
     for row in response['rows']:
         row_list = [row['elements'][j]['distance']['value']
                     for j in range(len(row['elements']))]
@@ -135,3 +137,11 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# responce: {'destination_addresses': ['2500 Victory Park Ln, Dallas, TX 75219, USA', '400 W Church St, Orlando, FL 32805, USA', '1869 Industrial Dr, Neosho, MO 64850, USA'],
+#  'origin_addresses': ['', '125 S Pennsylvania St, Indianapolis, IN 46204, USA', 'STAPLES Center, 1111 S Figueroa St, Los Angeles, CA 90015, USA'],
+#   'rows': [{'elements': [{'status': 'NOT_FOUND'}, {'distance': {'text': '962 mi', 'value': 1548789}, 'duration': {'text': '13 hours 50 mins', 'value': 49822}, 'status': 'OK'}, {'distance': {'text': '583 mi', 'value': 938077}, 'duration': {'text': '9 hours 9 mins', 'value': 32934}, 'status': 'OK'}]},
+# {'elements': [{'distance': {'text': '901 mi', 'value': 1449230}, 'duration': {'text': '13 hours 6 mins', 'value': 47141}, 'status': 'OK'}, {'distance': {'text': '970 mi', 'value': 1560626}, 'duration': {'text': '14 hours 8 mins', 'value': 50897}, 'status': 'OK'}, {'distance': {'text': '537 mi', 'value': 865005}, 'duration': {'text': '7 hours 55 mins', 'value': 28471}, 'status': 'OK'}]},
+# {'elements': [{'distance': {'text': '1,438 mi', 'value': 2313993}, 'duration': {'text': '20 hours 54 mins', 'value': 75211}, 'status': 'OK'}, {'distance': {'text': '2,510 mi', 'value': 4039847}, 'duration': {'text': '1 day 12 hours', 'value': 129860}, 'status': 'OK'}, {'distance': {'text': '1,541 mi', 'value': 2480554}, 'duration': {'text': '22 hours 24 mins', 'value': 80636}, 'status': 'OK'}]}]
+# , 'status': 'OK'}

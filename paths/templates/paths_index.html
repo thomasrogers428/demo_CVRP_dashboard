@@ -44,7 +44,7 @@
                                                 url:'{% url "path_index" %}',
                                                 data:
                                                 {
-                                                    spec: "calculate_path",
+                                                    calc_spec: "calculate_path",
                                                     csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
                                                 },
                                                 success:function(){
@@ -64,25 +64,25 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h5>Paths</h5>
-                                            <form id="path_reset" method="POST">
+                                            <form id="path_reset_form" method="POST">
                                                 {% csrf_token %}
-                                                <button class="btn btn-outline-secondary" style="position:absolute;top:12px;right:0;height:40px;width:60px;"><i class="feather icon-refresh-cw f-18 m-r-15"></i></button>
-                                            <form>
+                                                <button class="btn btn-outline-secondary" type="submit" style="position:absolute;top:12px;right:0;height:40px;width:60px;"><i class="feather icon-refresh-cw f-18 m-r-15"></i></button>
+                                            </form>
         
                                             <script src="https://code.jquery.com/jquery-3.5.1.js" 
                                                             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
                                                                 crossorigin="anonymous">
-                                            </script>
+                                            </script> 
                                                     
                                             <script type="text/javascript">
-                                            $(document).on('submit','#path_reset',function(e){
+                                            $(document).on('submit','#path_reset_form',function(e){
                                                 e.preventDefault();
                                                 $.ajax({
                                                     type:'POST',
                                                     url:'{% url "path_index" %}',
                                                     data:
                                                     {
-                                                        spec: "path_reset",
+                                                        reset_spec: "path_reset",
                                                         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
                                                     },
                                                     success:function(){
@@ -92,7 +92,9 @@
                                                         }
                                                     })
                                                 });
-                                            </script>
+                                            </script> 
+
+                                            
                                         </div>
                                         <div class="col-md-6 col-xl-12">
                                             <div class="card-block table-border-style">
@@ -109,7 +111,7 @@
                                                         <tbody>
                                                         {% for path in paths %}
                                                             <tr>
-                                                                <th scope="row">{{ path.truck_id }}</th>
+                                                                <th scope="row">{{ path.count }}</th>
                                                                 <td>{{ path.total_load }}</td>
                                                                 <td>{{ path.total_stops  }}</td>
                                                                 <td><a href="/paths/truck_info/{{ path.truck_id }}">Details</a></td>
@@ -118,7 +120,7 @@
                                                         </tbody> 
                                                     </table>
                                                     {% if paths_empty %}
-                                                        <p style="font-size: 12px; text-align: center"> No paths found. Click Calculate Path to find paths.<p>
+                                                        <p style="font-size: 12px; text-align: center"> No paths found. Click <b>Calculate Path</b> to find paths.<p>
                                                     {% endif %}
                                                 </div>
                                                 {% if not paths_empty %}
@@ -133,45 +135,49 @@
                                                                     </div>
                                                                     
                                                                     <div class="col-md-4">
-                                                                        <form id="auth_path_form" method="POST">
+
+                                                                        <form id="auth_path" method="POST">
                                                                             {% csrf_token %}
                                                                             <input class="btn btn-success" id="authorize_path" value="Authorize Path" name ="authorize_path" type="submit"></input>
                                                                         </form> 
+
+                                                                        <script type = "text/javascript">
+                                                                            function authorizingPage(){
+                                                                                var input = document.getElementById("authorize_path");
+                                                                                input.value = "Authorizing..."
+                                                                            }
+                                                                        </script>
+                                
+                                                                        <script src="https://code.jquery.com/jquery-3.5.1.js" 
+                                                                                        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
+                                                                                            crossorigin="anonymous">
+                                                                        </script>
+                                                                                
+                                                                        <script type="text/javascript">
+                                                                        $(document).on('submit','#auth_path',function(e){
+                                                                            e.preventDefault();
+                                                                            $.ajax({
+                                                                                type:'POST',
+                                                                                url:'{% url "path_index" %}',
+                                                                                data:
+                                                                                {
+                                                                                    reset_spec: 'reset_path',
+                                                                                    auth_spec: "authorize_path",
+                                                                                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                                                                                },
+                                                                                success:function(){
+                                                                                    // window.location.href="/paths/";
+                                                                                    window.location.reload();
+                                                                                    alert("Path Authorized");
+                                                                                    }
+                                                                                })
+                                                                            });
+                                                                        </script>
                                                                     </div>
                                                                     
                                                                 </div>
 
-                                                                <script type = "text/javascript">
-                                                                    function authorizingPage(){
-                                                                        var input = document.getElementById("authorize_path");
-                                                                        input.value = "Authorizing..."
-                                                                    }
-                                                                </script>
-                        
-                                                                <script src="https://code.jquery.com/jquery-3.5.1.js" 
-                                                                                integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
-                                                                                    crossorigin="anonymous">
-                                                                </script>
-                                                                        
-                                                                <script type="text/javascript">
-                                                                $(document).on('submit','#auth_path_form',function(e){
-                                                                    e.preventDefault();
-                                                                    $.ajax({
-                                                                        type:'POST',
-                                                                        url:'{% url "path_index" %}',
-                                                                        data:
-                                                                        {
-                                                                            spec: "authorize_path",
-                                                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
-                                                                        },
-                                                                        success:function(){
-                                                                            // window.location.href="/paths/";
-                                                                            window.location.reload();
-                                                                            alert("Path Authorized");
-                                                                            }
-                                                                        })
-                                                                    });
-                                                                </script>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -244,6 +250,12 @@
                                                     {% endfor %}
                                                     </tbody> 
                                                 </table>
+                                                {% if paths_empty %}
+                                                    <p style="font-size: 12px; text-align: center"> No paths calculated.<p>
+                                                {% endif %}
+                                                {% if not paths_empty and drops_empty%}
+                                                    <p style="font-size: 12px; text-align: center"> All Demands Fulfiled.<p>
+                                                {% endif %}
                                             {% comment %} </div> {% endcomment %}
                                         </div>
                                     </div>
